@@ -6,7 +6,10 @@ class DataProcessor {
    * Processa dados brutos e gera métricas agregadas
    */
   processData(rawData) {
-    return {
+    try {
+      console.log('[DataProcessor] Iniciando processamento...', rawData);
+      
+      const result = {
       periodo: rawData.periodo,
       metadata: rawData.metadata,
       resumoGeral: this.calculateResumoGeral(rawData),
@@ -15,7 +18,14 @@ class DataProcessor {
       divergenciasCRM: this.calculateDivergencias(rawData),
       evolucaoTemporal: this.calculateEvolucaoTemporal(rawData),
       insights: this.generateInsights(rawData),
-    };
+      };
+      
+      console.log('[DataProcessor] Processamento concluído com sucesso');
+      return result;
+    } catch (error) {
+      console.error('[DataProcessor] Erro no processamento:', error);
+      throw error;
+    }
   }
 
   /**

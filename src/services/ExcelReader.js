@@ -15,8 +15,10 @@ class ExcelReader {
 
       reader.onload = (e) => {
         try {
+          console.log('[ExcelReader] Lendo arquivo...');
           const data = new Uint8Array(e.target.result);
           const workbook = XLSX.read(data, { type: 'array' });
+          console.log('[ExcelReader] Workbook carregado, abas:', workbook.SheetNames);
 
           // Validar estrutura
           this.validateWorkbook(workbook);
@@ -33,8 +35,10 @@ class ExcelReader {
             },
           };
 
+          console.log('[ExcelReader] Dados processados com sucesso');
           resolve(processedData);
         } catch (error) {
+          console.error('[ExcelReader] Erro:', error);
           reject(new Error(`Erro ao processar planilha: ${error.message}`));
         }
       };

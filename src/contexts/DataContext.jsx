@@ -37,6 +37,7 @@ export const DataProvider = ({ children }) => {
    * Processa arquivo Excel
    */
   const loadExcelFile = async (file) => {
+    console.log('[DataContext] Iniciando upload...', file.name);
     setLoading(true);
     setError(null);
 
@@ -47,11 +48,15 @@ export const DataProvider = ({ children }) => {
       }
 
       // Ler arquivo
+      console.log('[DataContext] Chamando ExcelReader...');
       const data = await ExcelReader.readFile(file);
+      console.log('[DataContext] Dados lidos:', data);
       setRawData(data);
 
       // Processar dados
+      console.log('[DataContext] Chamando DataProcessor...');
       const processed = DataProcessor.processData(data);
+      console.log('[DataContext] Dados processados:', processed);
       setProcessedData(processed);
 
       // Salvar no localStorage
