@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = () => {
+const Sidebar = ({ isVisible }) => {
   const menuItems = [
     { path: '/', label: 'Menu Geral' },
     { path: '/detalhes-funil', label: 'Detalhes por Funil' },
@@ -13,7 +13,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${!isVisible ? 'hidden' : ''}`}>
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
           <NavLink

@@ -1,10 +1,13 @@
 import React from 'react';
 import './Header.css';
 
-const Header = () => {
+const Header = ({ onToggleSidebar, sidebarVisible }) => {
   return (
     <header className="header">
       <div className="header-left">
+        <button className="btn-toggle-sidebar" onClick={onToggleSidebar} title={sidebarVisible ? 'Ocultar menu' : 'Mostrar menu'}>
+          {sidebarVisible ? '◀' : '▶'}
+        </button>
         <div className="logo">
           <span className="logo-text">Nelogica</span>
         </div>

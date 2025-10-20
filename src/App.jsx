@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -12,13 +12,19 @@ import './styles/global.css';
 import './App.css';
 
 function App() {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
   return (
     <Router>
       <div className="app">
-        <Header />
+        <Header onToggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
         <div className="app-body">
-          <Sidebar />
-          <main className="app-content">
+          <Sidebar isVisible={sidebarVisible} />
+          <main className={`app-content ${!sidebarVisible ? 'sidebar-hidden' : ''}`}>
             <Routes>
               <Route path="/" element={<MenuGeral />} />
               <Route path="/detalhes-funil" element={<DetalhesPorFunil />} />
