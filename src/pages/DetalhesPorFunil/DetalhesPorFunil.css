@@ -1,0 +1,150 @@
+/* Seletor de Funil */
+.funil-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.funil-button {
+  background: #FFFFFF;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2C3E50;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.funil-button:hover {
+  border-color: #4169E1;
+  background: #F8F9FA;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(65, 105, 225, 0.15);
+}
+
+.funil-button.active {
+  background: #4169E1;
+  border-color: #4169E1;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+}
+
+.funil-button.active:hover {
+  background: #365ABD;
+  border-color: #365ABD;
+}
+
+/* Section Card */
+.section-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 32px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2C3E50;
+  margin: 0 0 24px 0;
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead {
+  background: #F8F9FA;
+}
+
+.data-table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7F8C8D;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #E0E0E0;
+}
+
+.data-table td {
+  padding: 16px;
+  font-size: 15px;
+  color: #2C3E50;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.data-table tbody tr:hover {
+  background: #F8F9FA;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.vendedor-name {
+  font-weight: 600;
+  color: #4169E1;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge.success {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.badge.warning {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+.badge.danger {
+  background: #FFEBEE;
+  color: #F44336;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .funil-selector {
+    flex-direction: column;
+  }
+
+  .funil-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .section-card {
+    padding: 20px;
+  }
+
+  .data-table {
+    font-size: 14px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 12px 8px;
+  }
+}
+

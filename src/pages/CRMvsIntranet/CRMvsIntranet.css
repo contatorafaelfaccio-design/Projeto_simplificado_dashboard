@@ -1,0 +1,169 @@
+/* Summary Card */
+.summary-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.summary-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.summary-card:has(.summary-icon:contains('✓')) .summary-icon {
+  background: #E8F5E9;
+}
+
+.summary-card:has(.summary-icon:contains('⚠')) .summary-icon {
+  background: #FFF3E0;
+}
+
+.summary-content h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2C3E50;
+  margin: 0 0 8px 0;
+}
+
+.summary-content p {
+  font-size: 15px;
+  color: #7F8C8D;
+  margin: 0;
+}
+
+/* Comparison Table */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comparison-table thead {
+  background: #F8F9FA;
+}
+
+.comparison-table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7F8C8D;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #E0E0E0;
+}
+
+.comparison-table .group-header {
+  text-align: center;
+  background: #4169E1;
+  color: #FFFFFF;
+  font-size: 14px;
+}
+
+.comparison-table td {
+  padding: 16px;
+  font-size: 15px;
+  color: #2C3E50;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.divergencia-row {
+  background: #FFF9F0;
+}
+
+.divergencia-row:hover {
+  background: #FFF3E0;
+}
+
+.diff-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.diff-badge.positive {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.diff-badge.negative {
+  background: #FFEBEE;
+  color: #F44336;
+}
+
+.diff-badge.neutral {
+  background: #F5F5F5;
+  color: #9E9E9E;
+}
+
+.no-divergencias {
+  text-align: center;
+  padding: 48px 32px;
+  color: #7F8C8D;
+}
+
+/* Actions Card */
+.actions-card {
+  background: #E3F2FD;
+  border-radius: 12px;
+  padding: 32px;
+  margin-top: 32px;
+  border-left: 4px solid #2196F3;
+}
+
+.actions-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2C3E50;
+  margin: 0 0 16px 0;
+}
+
+.actions-card ul {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.actions-card li {
+  font-size: 15px;
+  color: #2C3E50;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.actions-card li:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .summary-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .comparison-table {
+    font-size: 13px;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 12px 8px;
+  }
+
+  .actions-card {
+    padding: 20px;
+  }
+}
+

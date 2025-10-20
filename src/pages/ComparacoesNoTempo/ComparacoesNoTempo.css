@@ -1,0 +1,239 @@
+/* Vendedor Evolution Card */
+.vendedor-evolution-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 32px;
+}
+
+.vendedor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #F0F0F0;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.vendedor-header h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2C3E50;
+  margin: 0;
+}
+
+.variacao-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.variacao-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.variacao-badge.positive {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.variacao-badge.negative {
+  background: #FFEBEE;
+  color: #F44336;
+}
+
+.variacao-badge.neutral {
+  background: #F5F5F5;
+  color: #9E9E9E;
+}
+
+/* Evolution Table */
+.evolution-table-container {
+  overflow-x: auto;
+  margin-bottom: 32px;
+}
+
+.evolution-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.evolution-table thead {
+  background: #F8F9FA;
+}
+
+.evolution-table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7F8C8D;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #E0E0E0;
+}
+
+.evolution-table td {
+  padding: 16px;
+  font-size: 15px;
+  color: #2C3E50;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.evolution-table tbody tr:hover {
+  background: #F8F9FA;
+}
+
+.current-week {
+  background: #E3F2FD;
+  font-weight: 600;
+}
+
+.current-week:hover {
+  background: #BBDEFB !important;
+}
+
+.period-cell {
+  min-width: 180px;
+}
+
+.period-label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.current-badge {
+  background: #4169E1;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.period-date {
+  font-size: 13px;
+  color: #7F8C8D;
+}
+
+/* Simple Chart */
+.simple-chart {
+  margin-top: 32px;
+}
+
+.simple-chart h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2C3E50;
+  margin: 0 0 24px 0;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  height: 200px;
+  padding: 16px;
+  background: #F8F9FA;
+  border-radius: 8px;
+}
+
+.chart-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.chart-bar-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chart-bar {
+  width: 60%;
+  background: linear-gradient(180deg, #6B8EF5, #4169E1);
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  transition: all 0.3s ease;
+  min-height: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.chart-bar.current {
+  background: linear-gradient(180deg, #52C87A, #27AE60);
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.chart-bar:hover {
+  transform: scale(1.05);
+}
+
+.bar-label {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chart-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #7F8C8D;
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .vendedor-evolution-card {
+    padding: 20px;
+  }
+
+  .vendedor-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .variacao-badges {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .variacao-badge {
+    text-align: center;
+  }
+
+  .evolution-table {
+    font-size: 13px;
+  }
+
+  .evolution-table th,
+  .evolution-table td {
+    padding: 12px 8px;
+  }
+
+  .chart-bars {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .chart-bar {
+    width: 80%;
+  }
+
+  .bar-label {
+    font-size: 12px;
+  }
+}
+
