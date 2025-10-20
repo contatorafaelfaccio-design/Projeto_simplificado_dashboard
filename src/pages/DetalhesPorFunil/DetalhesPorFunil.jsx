@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -18,6 +19,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -97,6 +99,113 @@ const DetalhesPorFunil = () => {
         maxBarThickness: 60,
       }]
     };
+  };
+
+  // Mapeamento de cores fixas por vendedor
+  const getVendedorColor = (nome) => {
+    const nomeNormalizado = nome.toLowerCase();
+    if (nomeNormalizado.includes('vitor')) return '#8DC63F'; // Verde
+    if (nomeNormalizado.includes('rafael')) return '#00A9E0'; // Azul
+    if (nomeNormalizado.includes('andre')) return '#FFA726'; // Laranja
+    return '#AB47BC'; // Roxo (fallback)
+  };
+
+  // Preparar dados para o gráfico de pizza (Vendas)
+  const preparePieChartData = () => {
+    if (!funil || !rawData || !rawData.dadosCRM) return null;
+
+    // Filtrar dados do CRM pelo funil selecionado
+    const dadosFunil = rawData.dadosCRM
+      .filter(item => item.funil === funilSelecionado)
+      .map(item => ({
+        nome: item.vendedor,
+        vendas: item.vendas
+      }))
+      .filter(v => v.vendas > 0) // Apenas vendedores com vendas
+      .sort((a, b) => b.vendas - a.vendas);
+
+    if (dadosFunil.length === 0) return null;
+
+    const cores = dadosFunil.map(v => getVendedorColor(v.nome));
+
+    return {
+      labels: dadosFunil.map(v => v.nome),
+      datasets: [{
+        label: 'Vendas',
+        data: dadosFunil.map(v => v.vendas),
+        backgroundColor: cores,
+        borderColor: '#FFFFFF',
+        borderWidth: 3,
+      }]
+    };
+  };
+
+  const pieChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 13,
+            family: 'Inter',
+            weight: '500'
+          },
+          color: '#2C3E50',
+          padding: 15,
+          usePointStyle: true,
+          pointStyle: 'circle',
+        }
+      },
+      title: {
+        display: true,
+        text: 'Distribuição de Vendas por Vendedor',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            const label = context.label || '';
+            const value = context.parsed;
+            const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+            const percentage = ((value / total) * 100).toFixed(1);
+            return ` ${label}: ${value} vendas (${percentage}%)`;
+          }
+        }
+      },
+      datalabels: {
+        color: '#FFFFFF',
+        font: {
+          size: 14,
+          weight: '700',
+          family: 'Inter'
+        },
+        formatter: (value, context) => {
+          const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+          const percentage = ((value / total) * 100).toFixed(1);
+          return `${percentage}%`;
+        }
+      }
+    }
   };
 
   const chartOptions = {
@@ -255,14 +364,22 @@ const DetalhesPorFunil = () => {
             </div>
           </div>
 
-          {/* Gráfico de Tentativas */}
-          {prepareChartData() && (
-            <div className="chart-section">
+          {/* Gráficos - Layout 2 Colunas */}
+          <div className="charts-row">
+            {/* Gráfico de Tentativas */}
+            {prepareChartData() && (
               <div className="chart-container-funil">
                 <Bar data={prepareChartData()} options={chartOptions} />
               </div>
-            </div>
-          )}
+            )}
+
+            {/* Gráfico de Pizza - Vendas */}
+            {preparePieChartData() && (
+              <div className="chart-container-funil">
+                <Pie data={preparePieChartData()} options={pieChartOptions} />
+              </div>
+            )}
+          </div>
 
           {/* Tabela de Vendedores */}
           <div className="section-card">

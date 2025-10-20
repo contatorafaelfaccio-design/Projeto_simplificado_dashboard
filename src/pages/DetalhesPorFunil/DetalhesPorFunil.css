@@ -123,8 +123,11 @@
   color: #F44336;
 }
 
-/* Chart Section */
-.chart-section {
+/* Charts Row - Layout 2 Colunas */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   margin-top: 32px;
 }
 
@@ -133,7 +136,7 @@
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  height: 350px;
+  height: 400px;
   transition: all 0.2s ease;
 }
 
@@ -142,6 +145,13 @@
 }
 
 /* Responsividade */
+@media (max-width: 1024px) {
+  .charts-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .funil-selector {
     flex-direction: column;
@@ -163,6 +173,10 @@
   .data-table th,
   .data-table td {
     padding: 12px 8px;
+  }
+
+  .chart-container-funil {
+    height: 350px;
   }
 }
 
