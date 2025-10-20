@@ -1,0 +1,22 @@
+.app {
+  min-height: 100vh;
+  background: #F5F5F5;
+}
+
+.app-body {
+  display: flex;
+}
+
+.app-content {
+  flex: 1;
+  background: #F5F5F5;
+  min-height: calc(100vh - 70px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .app-body {
+    flex-direction: column;
+  }
+}
+

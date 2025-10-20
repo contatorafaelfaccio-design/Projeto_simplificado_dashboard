@@ -1,35 +1,45 @@
+
+!.vscode/extensions.json
 # Dependencies
-node_modules/
-/.pnp
-.pnp.js
-
-# Testing
-/coverage
-
-# Production
-/build
-/dist
-
-# Misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
+# Editor
+# Editor directories and files
 # Logs
+# Misc
+# OS
+# Production
+# Testing
+*.local
+*.log
+*.njsproj
+*.ntvs*
+*.sln
+*.suo
+*.sw?
+*.swo
+*.swp
+*~
+.DS_Store
+.env.development.local
+.env.local
+.env.production.local
+.env.test.local
+.idea
+.idea/
+.pnp.js
+.vscode/
+.vscode/*
+/.pnp
+/build
+/coverage
+/dist
+Thumbs.db
+dist
+dist-ssr
+lerna-debug.log*
+logs
+node_modules
+node_modules/
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-Thumbs.db
-
