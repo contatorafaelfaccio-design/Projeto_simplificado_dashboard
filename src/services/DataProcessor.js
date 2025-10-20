@@ -256,9 +256,9 @@ class DataProcessor {
    */
   generateInsights(data) {
     const insights = [];
-    const { dadosCRM, divergenciasCRM, resumoGeral } = this.processData(data);
 
-    // Insight: Vendedor destaque
+    // Calcular dados necessários (sem chamar processData para evitar loop)
+    const resumoGeral = this.calculateResumoGeral(data);
     const vendedores = this.aggregateByVendedor(data);
     const topVendedor = vendedores.sort((a, b) => b.vendas - a.vendas)[0];
     if (topVendedor) {
