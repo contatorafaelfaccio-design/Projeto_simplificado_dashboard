@@ -29,12 +29,6 @@
   text-align: center;
 }
 
-.empty-icon {
-  font-size: 64px;
-  margin-bottom: 24px;
-  opacity: 0.5;
-}
-
 .empty-state h3 {
   font-size: 24px;
   color: #2C3E50;
@@ -50,7 +44,7 @@
 }
 
 .btn-primary {
-  background: #8DC63F;
+  background: #4169E1;
   color: #FFFFFF;
   border: none;
   padding: 12px 32px;
@@ -62,9 +56,9 @@
 }
 
 .btn-primary:hover {
-  background: #7AB62F;
+  background: #365ABD;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(141, 198, 63, 0.3);
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
 }
 
 .btn-primary:active {

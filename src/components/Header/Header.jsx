@@ -17,7 +17,7 @@ const Header = () => {
           <span className="period-value">Aguardando dados...</span>
         </div>
         <button className="btn-update">
-          📊 Atualizar Dados
+          Atualizar Dados
         </button>
       </div>
     </header>

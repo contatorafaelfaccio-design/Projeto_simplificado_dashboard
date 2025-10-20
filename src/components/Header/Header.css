@@ -60,7 +60,7 @@
 }
 
 .btn-update {
-  background: #8DC63F;
+  background: #4169E1;
   color: #FFFFFF;
   border: none;
   padding: 10px 20px;
@@ -69,15 +69,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .btn-update:hover {
-  background: #7AB62F;
+  background: #365ABD;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(141, 198, 63, 0.3);
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
 }
 
 .btn-update:active {

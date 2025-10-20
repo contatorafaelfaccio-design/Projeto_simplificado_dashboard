@@ -4,12 +4,12 @@ import './Sidebar.css';
 
 const Sidebar = () => {
   const menuItems = [
-    { path: '/', icon: '🏠', label: 'Menu Geral' },
-    { path: '/detalhes-funil', icon: '🎯', label: 'Detalhes por Funil' },
-    { path: '/crm-intranet', icon: '⚖️', label: 'CRM x Intranet' },
-    { path: '/resultados-gerais', icon: '📊', label: 'Resultados Gerais' },
-    { path: '/comparacoes-tempo', icon: '📈', label: 'Comparações no Tempo' },
-    { path: '/insights', icon: '💡', label: 'Insights' },
+    { path: '/', label: 'Menu Geral' },
+    { path: '/detalhes-funil', label: 'Detalhes por Funil' },
+    { path: '/crm-intranet', label: 'CRM x Intranet' },
+    { path: '/resultados-gerais', label: 'Resultados Gerais' },
+    { path: '/comparacoes-tempo', label: 'Comparações no Tempo' },
+    { path: '/insights', label: 'Insights' },
   ];
 
   return (
@@ -24,7 +24,6 @@ const Sidebar = () => {
             }
             end={item.path === '/'}
           >
-            <span className="sidebar-icon">{item.icon}</span>
             <span className="sidebar-label">{item.label}</span>
           </NavLink>
         ))}

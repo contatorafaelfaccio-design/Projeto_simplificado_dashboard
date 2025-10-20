@@ -10,7 +10,6 @@ const MenuGeral = () => {
       </div>
 
       <div className="empty-state">
-        <div className="empty-icon">📊</div>
         <h3>Nenhum dado disponível</h3>
         <p>Faça upload da planilha de dados para visualizar o dashboard</p>
         <button className="btn-primary">

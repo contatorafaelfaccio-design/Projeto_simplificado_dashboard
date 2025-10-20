@@ -2,8 +2,8 @@
 export const theme = {
   colors: {
     // Cores principais Nelogica
-    primary: '#8DC63F',        // Verde Nelogica
-    secondary: '#00A9E0',      // Azul Ciano Nelogica
+    primary: '#4169E1',        // Royal Blue
+    secondary: '#00A9E0',      // Azul Ciano
     
     // Cores de texto
     textPrimary: '#2C3E50',    // Cinza Escuro
