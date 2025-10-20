@@ -389,30 +389,35 @@ const DetalhesPorFunil = () => {
                 <thead>
                   <tr>
                     <th>Vendedor</th>
+                    <th>Tentativas de Ligação</th>
+                    <th>Tempo de Ligação</th>
                     <th>Vendas</th>
                     <th>Faturamento</th>
                     <th>Conversão</th>
-                    <th>Ticket Médio</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {funil.vendedores.map((vendedor, index) => (
-                    <tr key={index}>
-                      <td className="vendedor-name">{vendedor.nome}</td>
-                      <td>{formatNumber(vendedor.vendas)}</td>
-                      <td>{formatCurrency(vendedor.faturamento)}</td>
-                      <td>
-                        <span className={`badge ${vendedor.conversao > 5 ? 'success' : vendedor.conversao > 0 ? 'warning' : 'danger'}`}>
-                          {vendedor.conversao.toFixed(1)}%
-                        </span>
-                      </td>
-                      <td>
-                        {vendedor.vendas > 0
-                          ? formatCurrency(vendedor.faturamento / vendedor.vendas)
-                          : '-'}
-                      </td>
-                    </tr>
-                  ))}
+                  {funil.vendedores.map((vendedor, index) => {
+                    // Buscar dados completos do vendedor nos dados brutos
+                    const dadosVendedor = rawData?.dadosCRM?.find(
+                      item => item.vendedor === vendedor.nome && item.funil === funilSelecionado
+                    );
+                    
+                    return (
+                      <tr key={index}>
+                        <td className="vendedor-name">{vendedor.nome}</td>
+                        <td>{formatNumber(dadosVendedor?.tentativasLigacao || 0)}</td>
+                        <td>{formatTime(dadosVendedor?.tempoLigacao || 0)}</td>
+                        <td>{formatNumber(vendedor.vendas)}</td>
+                        <td>{formatCurrency(vendedor.faturamento)}</td>
+                        <td>
+                          <span className={`badge ${vendedor.conversao > 5 ? 'success' : vendedor.conversao > 0 ? 'warning' : 'danger'}`}>
+                            {vendedor.conversao.toFixed(1)}%
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
