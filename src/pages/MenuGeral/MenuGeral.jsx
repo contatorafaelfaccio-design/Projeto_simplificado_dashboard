@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
 import UploadModal from '../../components/UploadModal/UploadModal';
-import { Bar, Pie } from 'react-chartjs-2';
+import { Bar, Pie, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +11,8 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  LineElement,
+  PointElement,
 } from 'chart.js';
 import './MenuGeral.css';
 
@@ -20,6 +22,8 @@ ChartJS.register(
   LinearScale,
   BarElement,
   ArcElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend
@@ -111,6 +115,127 @@ const MenuGeral = () => {
         borderWidth: 3,
       }]
     };
+  };
+
+  // Preparar dados para o gráfico de linha (Evolução Temporal de Vendas)
+  const prepareLineChartData = () => {
+    const evolucao = processedData.evolucaoTemporal;
+    
+    // Pegar top 3 vendedores por vendas totais
+    const vendedoresOrdenados = Object.keys(evolucao)
+      .map(nome => ({
+        nome,
+        totalVendas: evolucao[nome].reduce((sum, s) => sum + (s.vendas || 0), 0)
+      }))
+      .sort((a, b) => b.totalVendas - a.totalVendas)
+      .slice(0, 3);
+
+    // Obter labels (períodos)
+    const primeiroVendedor = evolucao[vendedoresOrdenados[0].nome];
+    const labels = primeiroVendedor.map(s => s.semana || s.periodo).reverse();
+
+    const colors = ['#8DC63F', '#00A9E0', '#FFA726'];
+
+    const datasets = vendedoresOrdenados.map((v, index) => {
+      const vendas = evolucao[v.nome].map(s => s.vendas || 0).reverse();
+      return {
+        label: v.nome,
+        data: vendas,
+        borderColor: colors[index],
+        backgroundColor: colors[index] + '20',
+        borderWidth: 3,
+        tension: 0.4,
+        fill: true,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: colors[index],
+        pointBorderColor: '#FFFFFF',
+        pointBorderWidth: 2,
+      };
+    });
+
+    return { labels, datasets };
+  };
+
+  const lineChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          font: {
+            size: 13,
+            family: 'Inter',
+            weight: '500'
+          },
+          color: '#2C3E50',
+          padding: 15,
+          usePointStyle: true,
+          pointStyle: 'circle',
+        }
+      },
+      title: {
+        display: true,
+        text: 'Evolução de Vendas - Top 3 Vendedores',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            return ` ${context.dataset.label}: ${context.parsed.y} vendas`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 12
+          },
+          color: '#2C3E50'
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          font: {
+            size: 12
+          },
+          color: '#2C3E50',
+          stepSize: 1
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      }
+    },
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    }
   };
 
   const pieChartOptions = {
@@ -315,6 +440,9 @@ const MenuGeral = () => {
           </div>
           <div className="chart-container">
             <Pie data={preparePieChartData()} options={pieChartOptions} />
+          </div>
+          <div className="chart-container">
+            <Line data={prepareLineChartData()} options={lineChartOptions} />
           </div>
         </div>
       </div>
