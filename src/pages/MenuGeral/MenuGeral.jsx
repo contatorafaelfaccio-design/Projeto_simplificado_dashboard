@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
 import UploadModal from '../../components/UploadModal/UploadModal';
 import './MenuGeral.css';
@@ -58,81 +58,60 @@ const MenuGeral = () => {
         <p className="page-subtitle">Período: {periodo.descricao}</p>
       </div>
 
-      <div className="kpi-grid">
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ background: '#E3F2FD' }}>
-            <span style={{ color: '#2196F3' }}>📞</span>
-          </div>
-          <div className="kpi-content">
-            <div className="kpi-label">Tentativas de Ligação</div>
-            <div className="kpi-value">{formatNumber(resumoGeral.tentativasLigacao)}</div>
+      {/* Layout 2 Colunas: KPIs à esquerda | Gráficos à direita */}
+      <div className="menu-geral-layout">
+        {/* Coluna Esquerda: KPIs */}
+        <div className="kpis-column">
+          <div className="kpi-grid-two-cols">
+            <div className="kpi-card">
+              <div className="kpi-content">
+                <div className="kpi-label">Tentativas de Ligação</div>
+                <div className="kpi-value">{formatNumber(resumoGeral.tentativasLigacao)}</div>
+              </div>
+            </div>
+
+            <div className="kpi-card">
+              <div className="kpi-content">
+                <div className="kpi-label">Negócios Trabalhados</div>
+                <div className="kpi-value">{formatNumber(resumoGeral.negociosTrabalhados)}</div>
+              </div>
+            </div>
+
+            <div className="kpi-card">
+              <div className="kpi-content">
+                <div className="kpi-label">Vendas Realizadas</div>
+                <div className="kpi-value">{formatNumber(resumoGeral.vendas)}</div>
+              </div>
+            </div>
+
+            <div className="kpi-card">
+              <div className="kpi-content">
+                <div className="kpi-label">Faturamento Total</div>
+                <div className="kpi-value">{formatCurrency(resumoGeral.faturamento)}</div>
+              </div>
+            </div>
+
+            <div className="kpi-card">
+              <div className="kpi-content">
+                <div className="kpi-label">Conversão Média</div>
+                <div className="kpi-value">{(resumoGeral.conversaoMedia || 0).toFixed(1)}%</div>
+              </div>
+            </div>
+
+            <div className="kpi-card">
+              <div className="kpi-content">
+                <div className="kpi-label">Tempo em Ligação</div>
+                <div className="kpi-value">{formatTime(resumoGeral.tempoLigacao)}</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ background: '#FFF3E0' }}>
-            <span style={{ color: '#FF9800' }}>💼</span>
+        {/* Coluna Direita: Gráficos (placeholder por enquanto) */}
+        <div className="charts-column">
+          <div className="chart-placeholder">
+            <p>Gráficos serão adicionados nas próximas etapas</p>
           </div>
-          <div className="kpi-content">
-            <div className="kpi-label">Negócios Trabalhados</div>
-            <div className="kpi-value">{formatNumber(resumoGeral.negociosTrabalhados)}</div>
-          </div>
-        </div>
-
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ background: '#E8F5E9' }}>
-            <span style={{ color: '#4CAF50' }}>✓</span>
-          </div>
-          <div className="kpi-content">
-            <div className="kpi-label">Vendas Realizadas</div>
-            <div className="kpi-value">{formatNumber(resumoGeral.vendas)}</div>
-          </div>
-        </div>
-
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ background: '#F3E5F5' }}>
-            <span style={{ color: '#9C27B0' }}>💰</span>
-          </div>
-          <div className="kpi-content">
-            <div className="kpi-label">Faturamento Total</div>
-            <div className="kpi-value">{formatCurrency(resumoGeral.faturamento)}</div>
-          </div>
-        </div>
-
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ background: '#FCE4EC' }}>
-            <span style={{ color: '#E91E63' }}>%</span>
-          </div>
-          <div className="kpi-content">
-            <div className="kpi-label">Conversão Média</div>
-            <div className="kpi-value">{resumoGeral.conversaoMedia.toFixed(1)}%</div>
-          </div>
-        </div>
-
-        <div className="kpi-card">
-          <div className="kpi-icon" style={{ background: '#E0F2F1' }}>
-            <span style={{ color: '#009688' }}>⏱</span>
-          </div>
-          <div className="kpi-content">
-            <div className="kpi-label">Tempo em Ligação</div>
-            <div className="kpi-value">{formatTime(resumoGeral.tempoLigacao)}</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="info-section">
-        <div className="info-card">
-          <h3>Ticket Médio</h3>
-          <div className="info-value">{formatCurrency(resumoGeral.ticketMedio)}</div>
-          <p className="info-description">Valor médio por venda realizada</p>
-        </div>
-
-        <div className="info-card">
-          <h3>Performance</h3>
-          <div className="info-value">
-            {resumoGeral.vendas} / {resumoGeral.negociosTrabalhados}
-          </div>
-          <p className="info-description">Vendas / Negócios trabalhados</p>
         </div>
       </div>
     </div>

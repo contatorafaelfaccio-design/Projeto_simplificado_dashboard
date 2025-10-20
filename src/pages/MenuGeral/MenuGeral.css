@@ -157,10 +157,71 @@
   margin: 0;
 }
 
+/* Layout 2 Colunas - Menu Geral */
+.menu-geral-layout {
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.kpis-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-grid-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.charts-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.chart-placeholder {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 60px 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border: 2px dashed #E0E0E0;
+}
+
+.chart-placeholder p {
+  font-size: 14px;
+  color: #7F8C8D;
+  margin: 0;
+  font-weight: 500;
+}
+
 /* Responsividade */
+@media (max-width: 1200px) {
+  .menu-geral-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .kpis-column {
+    order: 1;
+  }
+
+  .charts-column {
+    order: 2;
+  }
+}
+
 @media (max-width: 768px) {
   .page-container {
     padding: 16px;
+  }
+
+  .kpi-grid-two-cols {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .kpi-grid {
@@ -179,6 +240,10 @@
 
   .info-value {
     font-size: 28px;
+  }
+
+  .menu-geral-layout {
+    gap: 16px;
   }
 }
 
