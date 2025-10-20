@@ -25,7 +25,7 @@ ChartJS.register(
 );
 
 const DetalhesPorFunil = () => {
-  const { processedData, hasData } = useData();
+  const { processedData, rawData, hasData } = useData();
   const [funilSelecionado, setFunilSelecionado] = useState(null);
 
   if (!hasData()) {
@@ -72,20 +72,16 @@ const DetalhesPorFunil = () => {
 
   // Preparar dados para o gráfico de tentativas
   const prepareChartData = () => {
-    if (!funil) return null;
+    if (!funil || !rawData || !rawData.dadosCRM) return null;
 
-    // Buscar dados do CRM filtrados pelo funil selecionado
-    const dadosFunil = processedData.porVendedor
-      .map(vendedor => {
-        const funilVendedor = vendedor.funis.find(f => f.nome === funilSelecionado);
-        if (!funilVendedor) return null;
-        return {
-          nome: vendedor.nome,
-          tentativasLigacao: vendedor.tentativasLigacao // Usar tentativas totais do vendedor
-        };
-      })
-      .filter(v => v !== null)
-      .sort((a, b) => b.tentativasLigacao - a.tentativasLigacao);
+    // Filtrar dados do CRM pelo funil selecionado
+    const dadosFunil = rawData.dadosCRM
+      .filter(item => item.funil === funilSelecionado)
+      .map(item => ({
+        nome: item.vendedor,
+        tentativas: item.tentativasLigacao
+      }))
+      .sort((a, b) => b.tentativas - a.tentativas);
 
     if (dadosFunil.length === 0) return null;
 
@@ -95,7 +91,7 @@ const DetalhesPorFunil = () => {
       labels: dadosFunil.map(v => v.nome),
       datasets: [{
         label: 'Tentativas de Ligação',
-        data: dadosFunil.map(v => v.tentativasLigacao),
+        data: dadosFunil.map(v => v.tentativas),
         backgroundColor: colors.slice(0, dadosFunil.length),
         borderRadius: 8,
         maxBarThickness: 60,
