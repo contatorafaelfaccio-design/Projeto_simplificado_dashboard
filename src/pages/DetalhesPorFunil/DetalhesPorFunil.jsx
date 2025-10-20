@@ -1,6 +1,26 @@
 import React, { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import './DetalhesPorFunil.css';
+
+// Registrar componentes do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const DetalhesPorFunil = () => {
   const { processedData, hasData } = useData();
@@ -46,6 +66,93 @@ const DetalhesPorFunil = () => {
     if (horas === 0) return `${mins}m`;
     if (mins === 0) return `${horas}h`;
     return `${horas}h${mins}m`;
+  };
+
+  // Preparar dados para o gráfico de tentativas
+  const prepareChartData = () => {
+    if (!funil || !funil.vendedores) return null;
+
+    const vendedoresOrdenados = [...funil.vendedores]
+      .sort((a, b) => b.tentativasLigacao - a.tentativasLigacao);
+
+    const colors = ['#8DC63F', '#00A9E0', '#FFA726', '#AB47BC', '#EC407A'];
+
+    return {
+      labels: vendedoresOrdenados.map(v => v.nome),
+      datasets: [{
+        label: 'Tentativas de Ligação',
+        data: vendedoresOrdenados.map(v => v.tentativasLigacao),
+        backgroundColor: colors.slice(0, vendedoresOrdenados.length),
+        borderRadius: 8,
+        barThickness: 40,
+      }]
+    };
+  };
+
+  const chartOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Tentativas de Ligação por Vendedor',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            return ` ${formatNumber(context.parsed.x)} tentativas`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: {
+          callback: (value) => formatNumber(value),
+          font: {
+            size: 12
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 13,
+            weight: '500'
+          },
+          color: '#2C3E50'
+        },
+        grid: {
+          display: false
+        }
+      }
+    }
   };
 
   return (
@@ -133,6 +240,15 @@ const DetalhesPorFunil = () => {
               </div>
             </div>
           </div>
+
+          {/* Gráfico de Tentativas */}
+          {prepareChartData() && (
+            <div className="chart-section">
+              <div className="chart-container-funil">
+                <Bar data={prepareChartData()} options={chartOptions} />
+              </div>
+            </div>
+          )}
 
           {/* Tabela de Vendedores */}
           <div className="section-card">

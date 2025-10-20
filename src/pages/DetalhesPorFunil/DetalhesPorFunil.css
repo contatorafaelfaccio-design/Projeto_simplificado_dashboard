@@ -123,6 +123,24 @@
   color: #F44336;
 }
 
+/* Chart Section */
+.chart-section {
+  margin-top: 32px;
+}
+
+.chart-container-funil {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  height: 350px;
+  transition: all 0.2s ease;
+}
+
+.chart-container-funil:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .funil-selector {
