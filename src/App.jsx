@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { DataProvider } from './contexts/DataContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -19,24 +20,26 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="app">
-        <Header onToggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
-        <div className="app-body">
-          <Sidebar isVisible={sidebarVisible} />
-          <main className={`app-content ${!sidebarVisible ? 'sidebar-hidden' : ''}`}>
-            <Routes>
-              <Route path="/" element={<MenuGeral />} />
-              <Route path="/detalhes-funil" element={<DetalhesPorFunil />} />
-              <Route path="/crm-intranet" element={<CRMvsIntranet />} />
-              <Route path="/resultados-gerais" element={<ResultadosGerais />} />
-              <Route path="/comparacoes-tempo" element={<ComparacoesNoTempo />} />
-              <Route path="/insights" element={<Insights />} />
-            </Routes>
-          </main>
+    <DataProvider>
+      <Router>
+        <div className="app">
+          <Header onToggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
+          <div className="app-body">
+            <Sidebar isVisible={sidebarVisible} />
+            <main className={`app-content ${!sidebarVisible ? 'sidebar-hidden' : ''}`}>
+              <Routes>
+                <Route path="/" element={<MenuGeral />} />
+                <Route path="/detalhes-funil" element={<DetalhesPorFunil />} />
+                <Route path="/crm-intranet" element={<CRMvsIntranet />} />
+                <Route path="/resultados-gerais" element={<ResultadosGerais />} />
+                <Route path="/comparacoes-tempo" element={<ComparacoesNoTempo />} />
+                <Route path="/insights" element={<Insights />} />
+              </Routes>
+            </main>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </DataProvider>
   );
 }
 
