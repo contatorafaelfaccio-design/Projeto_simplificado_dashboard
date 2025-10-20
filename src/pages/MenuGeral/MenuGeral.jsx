@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
 import UploadModal from '../../components/UploadModal/UploadModal';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from 'chart.js';
 import './MenuGeral.css';
 
@@ -18,6 +19,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend
@@ -89,6 +91,99 @@ const MenuGeral = () => {
         barThickness: 40,
       }]
     };
+  };
+
+  // Preparar dados para o gráfico de pizza (Distribuição de Vendas)
+  const preparePieChartData = () => {
+    const sorted = [...processedData.porVendedor]
+      .sort((a, b) => b.vendas - a.vendas)
+      .slice(0, 5);
+
+    const colors = ['#8DC63F', '#00A9E0', '#FFA726', '#AB47BC', '#EC407A'];
+
+    return {
+      labels: sorted.map(v => v.nome),
+      datasets: [{
+        label: 'Vendas',
+        data: sorted.map(v => v.vendas),
+        backgroundColor: colors,
+        borderColor: '#FFFFFF',
+        borderWidth: 3,
+      }]
+    };
+  };
+
+  const pieChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          font: {
+            size: 13,
+            family: 'Inter',
+            weight: '500'
+          },
+          color: '#2C3E50',
+          padding: 15,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          generateLabels: (chart) => {
+            const data = chart.data;
+            if (data.labels.length && data.datasets.length) {
+              const dataset = data.datasets[0];
+              const total = dataset.data.reduce((acc, val) => acc + val, 0);
+              return data.labels.map((label, i) => {
+                const value = dataset.data[i];
+                const percentage = ((value / total) * 100).toFixed(1);
+                return {
+                  text: `${label}: ${value} (${percentage}%)`,
+                  fillStyle: dataset.backgroundColor[i],
+                  hidden: false,
+                  index: i
+                };
+              });
+            }
+            return [];
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: 'Distribuição de Vendas por Vendedor',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            const label = context.label || '';
+            const value = context.parsed;
+            const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+            const percentage = ((value / total) * 100).toFixed(1);
+            return ` ${label}: ${value} vendas (${percentage}%)`;
+          }
+        }
+      }
+    }
   };
 
   const barChartOptions = {
@@ -217,6 +312,9 @@ const MenuGeral = () => {
         <div className="charts-column">
           <div className="chart-container">
             <Bar data={prepareBarChartData()} options={barChartOptions} />
+          </div>
+          <div className="chart-container">
+            <Pie data={preparePieChartData()} options={pieChartOptions} />
           </div>
         </div>
       </div>
