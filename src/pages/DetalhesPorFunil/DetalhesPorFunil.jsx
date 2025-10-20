@@ -84,13 +84,12 @@ const DetalhesPorFunil = () => {
         data: vendedoresOrdenados.map(v => v.tentativasLigacao),
         backgroundColor: colors.slice(0, vendedoresOrdenados.length),
         borderRadius: 8,
-        barThickness: 40,
+        maxBarThickness: 60,
       }]
     };
   };
 
   const chartOptions = {
-    indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -122,34 +121,37 @@ const DetalhesPorFunil = () => {
         },
         callbacks: {
           label: (context) => {
-            return ` ${formatNumber(context.parsed.x)} tentativas`;
+            return ` ${formatNumber(context.parsed.y)} tentativas`;
           }
         }
       }
     },
     scales: {
       x: {
+        ticks: {
+          font: {
+            size: 12,
+            weight: '500'
+          },
+          color: '#2C3E50',
+          maxRotation: 45,
+          minRotation: 0
+        },
+        grid: {
+          display: false
+        }
+      },
+      y: {
         beginAtZero: true,
         ticks: {
           callback: (value) => formatNumber(value),
           font: {
             size: 12
-          }
-        },
-        grid: {
-          color: 'rgba(0, 0, 0, 0.05)'
-        }
-      },
-      y: {
-        ticks: {
-          font: {
-            size: 13,
-            weight: '500'
           },
           color: '#2C3E50'
         },
         grid: {
-          display: false
+          color: 'rgba(0, 0, 0, 0.05)'
         }
       }
     }
