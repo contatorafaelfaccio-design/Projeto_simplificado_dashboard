@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './DetalhesPorFunil.css';
 
 // Registrar componentes do Chart.js
@@ -19,7 +20,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 const DetalhesPorFunil = () => {
@@ -70,19 +72,31 @@ const DetalhesPorFunil = () => {
 
   // Preparar dados para o gráfico de tentativas
   const prepareChartData = () => {
-    if (!funil || !funil.vendedores) return null;
+    if (!funil) return null;
 
-    const vendedoresOrdenados = [...funil.vendedores]
+    // Buscar dados do CRM filtrados pelo funil selecionado
+    const dadosFunil = processedData.porVendedor
+      .map(vendedor => {
+        const funilVendedor = vendedor.funis.find(f => f.nome === funilSelecionado);
+        if (!funilVendedor) return null;
+        return {
+          nome: vendedor.nome,
+          tentativasLigacao: vendedor.tentativasLigacao // Usar tentativas totais do vendedor
+        };
+      })
+      .filter(v => v !== null)
       .sort((a, b) => b.tentativasLigacao - a.tentativasLigacao);
+
+    if (dadosFunil.length === 0) return null;
 
     const colors = ['#8DC63F', '#00A9E0', '#FFA726', '#AB47BC', '#EC407A'];
 
     return {
-      labels: vendedoresOrdenados.map(v => v.nome),
+      labels: dadosFunil.map(v => v.nome),
       datasets: [{
         label: 'Tentativas de Ligação',
-        data: vendedoresOrdenados.map(v => v.tentativasLigacao),
-        backgroundColor: colors.slice(0, vendedoresOrdenados.length),
+        data: dadosFunil.map(v => v.tentativasLigacao),
+        backgroundColor: colors.slice(0, dadosFunil.length),
         borderRadius: 8,
         maxBarThickness: 60,
       }]
@@ -124,6 +138,17 @@ const DetalhesPorFunil = () => {
             return ` ${formatNumber(context.parsed.y)} tentativas`;
           }
         }
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        color: '#2C3E50',
+        font: {
+          size: 13,
+          weight: '600',
+          family: 'Inter'
+        },
+        formatter: (value) => formatNumber(value)
       }
     },
     scales: {
@@ -142,17 +167,8 @@ const DetalhesPorFunil = () => {
         }
       },
       y: {
-        beginAtZero: true,
-        ticks: {
-          callback: (value) => formatNumber(value),
-          font: {
-            size: 12
-          },
-          color: '#2C3E50'
-        },
-        grid: {
-          color: 'rgba(0, 0, 0, 0.05)'
-        }
+        display: false,
+        beginAtZero: true
       }
     }
   };
