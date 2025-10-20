@@ -182,20 +182,17 @@
   gap: 24px;
 }
 
-.chart-placeholder {
+.chart-container {
   background: #FFFFFF;
   border-radius: 12px;
-  padding: 60px 32px;
+  padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  border: 2px dashed #E0E0E0;
+  height: 350px;
+  transition: all 0.2s ease;
 }
 
-.chart-placeholder p {
-  font-size: 14px;
-  color: #7F8C8D;
-  margin: 0;
-  font-weight: 500;
+.chart-container:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 /* Responsividade */

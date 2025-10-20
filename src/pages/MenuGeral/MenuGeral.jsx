@@ -1,7 +1,27 @@
 import { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
 import UploadModal from '../../components/UploadModal/UploadModal';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import './MenuGeral.css';
+
+// Registrar componentes do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const MenuGeral = () => {
   const { processedData, hasData } = useData();
@@ -49,6 +69,92 @@ const MenuGeral = () => {
     if (horas === 0) return `${mins}m`;
     if (mins === 0) return `${horas}h`;
     return `${horas}h${mins}m`;
+  };
+
+  // Preparar dados para o gráfico de barras (Top 5 Tentativas)
+  const prepareBarChartData = () => {
+    const sorted = [...processedData.porVendedor]
+      .sort((a, b) => b.tentativasLigacao - a.tentativasLigacao)
+      .slice(0, 5);
+
+    const colors = ['#8DC63F', '#00A9E0', '#FFA726', '#AB47BC', '#EC407A'];
+
+    return {
+      labels: sorted.map(v => v.nome),
+      datasets: [{
+        label: 'Tentativas de Ligação',
+        data: sorted.map(v => v.tentativasLigacao),
+        backgroundColor: colors,
+        borderRadius: 8,
+        barThickness: 40,
+      }]
+    };
+  };
+
+  const barChartOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Top 5 - Tentativas de Ligação por Vendedor',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            return ` ${formatNumber(context.parsed.x)} tentativas`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: {
+          callback: (value) => formatNumber(value),
+          font: {
+            size: 12
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      },
+      y: {
+        ticks: {
+          font: {
+            size: 13,
+            weight: '500'
+          },
+          color: '#2C3E50'
+        },
+        grid: {
+          display: false
+        }
+      }
+    }
   };
 
   return (
@@ -107,10 +213,10 @@ const MenuGeral = () => {
           </div>
         </div>
 
-        {/* Coluna Direita: Gráficos (placeholder por enquanto) */}
+        {/* Coluna Direita: Gráficos */}
         <div className="charts-column">
-          <div className="chart-placeholder">
-            <p>Gráficos serão adicionados nas próximas etapas</p>
+          <div className="chart-container">
+            <Bar data={prepareBarChartData()} options={barChartOptions} />
           </div>
         </div>
       </div>
