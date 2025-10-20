@@ -171,22 +171,7 @@ const DetalhesPorFunil = () => {
             </div>
           </div>
 
-          {/* Resumo */}
-          <div className="info-section">
-            <div className="info-card">
-              <h3>Ticket Médio do Funil</h3>
-              <div className="info-value">{formatCurrency(funil.ticketMedio)}</div>
-              <p className="info-description">Valor médio por venda no funil</p>
-            </div>
 
-            <div className="info-card">
-              <h3>Performance Geral</h3>
-              <div className="info-value">
-                {funil.vendas} / {funil.negociosTrabalhados}
-              </div>
-              <p className="info-description">Vendas / Negócios trabalhados</p>
-            </div>
-          </div>
         </>
       )}
     </div>
