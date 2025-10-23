@@ -90,7 +90,7 @@ const CRMvsIntranet = () => {
     plugins: {
       legend: {
         display: true,
-        position: 'top',
+        position: 'bottom',
         labels: {
           font: {
             size: 13,
