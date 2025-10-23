@@ -72,67 +72,95 @@
 /* Comparison Table */
 .comparison-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .comparison-table thead {
-  background: #F8F9FA;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .comparison-table th {
-  padding: 16px;
-  text-align: left;
+  padding: 18px 16px;
+  text-align: center;
   font-size: 13px;
-  font-weight: 600;
-  color: #7F8C8D;
+  font-weight: 700;
+  color: #FFFFFF;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid #E0E0E0;
+  letter-spacing: 0.8px;
+  border-bottom: none;
+}
+
+.comparison-table th:first-child {
+  text-align: left;
 }
 
 .comparison-table .group-header {
   text-align: center;
-  background: #4169E1;
+  background: rgba(255, 255, 255, 0.15);
   color: #FFFFFF;
   font-size: 14px;
+  font-weight: 700;
+  padding: 14px 16px;
 }
 
 .comparison-table td {
-  padding: 16px;
+  padding: 18px 16px;
   font-size: 15px;
   color: #2C3E50;
   border-bottom: 1px solid #F0F0F0;
+  text-align: center;
+  vertical-align: middle;
 }
 
-.divergencia-row {
-  background: #FFF9F0;
+.comparison-table td:first-child {
+  text-align: left;
 }
 
-.divergencia-row:hover {
-  background: #FFF3E0;
+.comparison-table tbody tr {
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.comparison-table tbody tr:hover {
+  background: #F8F9FA;
+  transform: translateX(4px);
+  box-shadow: -4px 0 0 0 #667eea;
+}
+
+.vendedor-name {
+  font-weight: 600;
+  color: #2C3E50;
 }
 
 .diff-badge {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
+  padding: 6px 14px;
+  border-radius: 16px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
 }
 
 .diff-badge.positive {
-  background: #E8F5E9;
-  color: #4CAF50;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .diff-badge.negative {
-  background: #FFEBEE;
-  color: #F44336;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
 }
 
 .diff-badge.neutral {
-  background: #F5F5F5;
-  color: #9E9E9E;
+  background: #E8F5E9;
+  color: #4CAF50;
+  font-weight: 600;
 }
 
 .no-divergencias {
