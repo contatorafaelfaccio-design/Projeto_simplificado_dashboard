@@ -67,7 +67,6 @@ const ResultadosGerais = () => {
                 <th>Vendas</th>
                 <th>Conversão</th>
                 <th>Faturamento</th>
-                <th>Ticket Médio</th>
                 <th>Tempo</th>
               </tr>
             </thead>
@@ -89,7 +88,6 @@ const ResultadosGerais = () => {
                     </span>
                   </td>
                   <td className="highlight">{formatCurrency(vendedor.faturamento)}</td>
-                  <td>{formatCurrency(vendedor.ticketMedio)}</td>
                   <td>{formatTime(vendedor.tempoLigacao)}</td>
                 </tr>
               ))}
