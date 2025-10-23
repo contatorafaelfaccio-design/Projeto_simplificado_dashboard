@@ -1,6 +1,28 @@
 import React from 'react';
 import { useData } from '../../contexts/DataContext';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './CRMvsIntranet.css';
+
+// Registrar componentes do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 const CRMvsIntranet = () => {
   const { processedData, hasData } = useData();
@@ -32,12 +54,127 @@ const CRMvsIntranet = () => {
     return new Intl.NumberFormat('pt-BR').format(value);
   };
 
+  // Preparar dados para o gráfico de vendas consolidadas
+  const prepareVendasChartData = () => {
+    if (!processedData.resumoGeral) return null;
+
+    const totalVendasCRM = processedData.resumoGeral.vendas;
+    const totalVendasIntranet = processedData.resumoGeral.vendasIntranet;
+
+    return {
+      labels: ['Vendas'],
+      datasets: [
+        {
+          label: 'CRM',
+          data: [totalVendasCRM],
+          backgroundColor: '#00A9E0', // Azul
+          borderRadius: 8,
+          maxBarThickness: 80,
+        },
+        {
+          label: 'Intranet',
+          data: [totalVendasIntranet],
+          backgroundColor: '#8DC63F', // Verde
+          borderRadius: 8,
+          maxBarThickness: 80,
+        }
+      ]
+    };
+  };
+
+  const vendasChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          font: {
+            size: 13,
+            family: 'Inter',
+            weight: '500'
+          },
+          color: '#2C3E50',
+          padding: 15,
+          usePointStyle: true,
+          pointStyle: 'circle',
+        }
+      },
+      title: {
+        display: true,
+        text: 'Vendas Consolidadas - CRM x Intranet',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 20
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            return ` ${context.dataset.label}: ${formatNumber(context.parsed.y)} vendas`;
+          }
+        }
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        color: '#2C3E50',
+        font: {
+          size: 14,
+          weight: '700',
+          family: 'Inter'
+        },
+        formatter: (value) => formatNumber(value)
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 13,
+            weight: '500'
+          },
+          color: '#2C3E50'
+        },
+        grid: {
+          display: false
+        }
+      },
+      y: {
+        display: false,
+        beginAtZero: true
+      }
+    }
+  };
+
   return (
     <div className="page-container">
       <div className="page-header">
         <h2 className="page-title">Comparação CRM x Intranet</h2>
         <p className="page-subtitle">Período: {periodo.descricao}</p>
       </div>
+
+      {/* Gráfico de Vendas Consolidadas */}
+      {prepareVendasChartData() && (
+        <div className="chart-container-crm">
+          <Bar data={prepareVendasChartData()} options={vendasChartOptions} />
+        </div>
+      )}
 
       {/* Resumo de Divergências */}
       <div className="summary-card">
