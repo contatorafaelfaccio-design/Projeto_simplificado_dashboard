@@ -85,6 +85,8 @@ const CRMvsIntranet = () => {
   const vendasChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    categoryPercentage: 0.5, // Reduz a largura da categoria (mais espaço entre grupos)
+    barPercentage: 0.8, // Largura das barras dentro da categoria
     plugins: {
       legend: {
         display: true,
