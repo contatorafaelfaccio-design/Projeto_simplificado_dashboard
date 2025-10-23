@@ -82,6 +82,116 @@ const CRMvsIntranet = () => {
     };
   };
 
+  // Preparar dados para o gráfico de faturamento consolidado
+  const prepareFaturamentoChartData = () => {
+    if (!processedData.resumoGeral) return null;
+
+    const totalFaturamentoCRM = processedData.resumoGeral.faturamento;
+    const totalFaturamentoIntranet = processedData.resumoGeral.faturamentoIntranet;
+
+    return {
+      labels: ['Faturamento'],
+      datasets: [
+        {
+          label: 'CRM',
+          data: [totalFaturamentoCRM],
+          backgroundColor: '#00A9E0', // Azul
+          borderRadius: 8,
+          maxBarThickness: 80,
+        },
+        {
+          label: 'Intranet',
+          data: [totalFaturamentoIntranet],
+          backgroundColor: '#8DC63F', // Verde
+          borderRadius: 8,
+          maxBarThickness: 80,
+        }
+      ]
+    };
+  };
+
+  const faturamentoChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    categoryPercentage: 0.5,
+    barPercentage: 0.8,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 13,
+            family: 'Inter',
+            weight: '500'
+          },
+          color: '#2C3E50',
+          padding: 15,
+          usePointStyle: true,
+          pointStyle: 'circle',
+        }
+      },
+      title: {
+        display: true,
+        text: 'Faturamento Consolidado - CRM x Intranet',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 40
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            return ` ${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
+          }
+        }
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        color: '#2C3E50',
+        font: {
+          size: 14,
+          weight: '700',
+          family: 'Inter'
+        },
+        formatter: (value) => formatCurrency(value)
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 13,
+            weight: '500'
+          },
+          color: '#2C3E50'
+        },
+        grid: {
+          display: false
+        }
+      },
+      y: {
+        display: false,
+        beginAtZero: true
+      }
+    }
+  };
+
   const vendasChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -180,10 +290,12 @@ const CRMvsIntranet = () => {
           </div>
         )}
 
-        {/* Espaço para o próximo gráfico (Faturamento) */}
-        <div className="chart-container-crm chart-placeholder">
-          <p style={{textAlign: 'center', color: '#7F8C8D', marginTop: '150px'}}>Próximo gráfico será adicionado aqui</p>
-        </div>
+        {/* Gráfico de Faturamento Consolidado */}
+        {prepareFaturamentoChartData() && (
+          <div className="chart-container-crm">
+            <Bar data={prepareFaturamentoChartData()} options={faturamentoChartOptions} />
+          </div>
+        )}
       </div>
 
       {/* Resumo de Divergências */}
