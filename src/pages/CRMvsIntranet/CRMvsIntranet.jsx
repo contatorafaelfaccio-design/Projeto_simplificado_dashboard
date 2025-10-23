@@ -113,7 +113,7 @@ const CRMvsIntranet = () => {
         },
         color: '#2C3E50',
         padding: {
-          bottom: 20
+          bottom: 40
         }
       },
       tooltip: {
