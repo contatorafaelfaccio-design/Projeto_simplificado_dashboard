@@ -32,7 +32,7 @@ class DataProcessor {
    * Calcula resumo geral da semana atual
    */
   calculateResumoGeral(data) {
-    const { dadosCRM } = data;
+    const { dadosCRM, dadosIntranet } = data;
 
     const totais = dadosCRM.reduce(
       (acc, item) => ({
@@ -51,8 +51,22 @@ class DataProcessor {
       }
     );
 
+    // Calcular totais da Intranet
+    const totaisIntranet = dadosIntranet ? dadosIntranet.reduce(
+      (acc, item) => ({
+        vendas: acc.vendas + (item.vendas || 0),
+        faturamento: acc.faturamento + (item.faturamento || 0),
+      }),
+      {
+        vendas: 0,
+        faturamento: 0,
+      }
+    ) : { vendas: 0, faturamento: 0 };
+
     return {
       ...totais,
+      vendasIntranet: totaisIntranet.vendas,
+      faturamentoIntranet: totaisIntranet.faturamento,
       conversaoMedia:
         totais.negociosTrabalhados > 0
           ? (totais.vendas / totais.negociosTrabalhados) * 100

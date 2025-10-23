@@ -1,16 +1,28 @@
+/* Charts Row - Layout 2 Colunas */
+.charts-row-crm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
 /* Chart Container */
 .chart-container-crm {
   background: #FFFFFF;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin-bottom: 32px;
   height: 350px;
   transition: all 0.2s ease;
 }
 
 .chart-container-crm:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.chart-placeholder {
+  border: 2px dashed #E0E0E0;
+  background: #F8F9FA;
 }
 
 /* Summary Card */
@@ -162,10 +174,21 @@
 }
 
 /* Responsividade */
+@media (max-width: 1024px) {
+  .charts-row-crm {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .summary-card {
     flex-direction: column;
     text-align: center;
+  }
+
+  .chart-container-crm {
+    height: 300px;
   }
 
   .comparison-table {

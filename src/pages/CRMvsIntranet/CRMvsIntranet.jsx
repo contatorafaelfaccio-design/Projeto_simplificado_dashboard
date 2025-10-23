@@ -169,12 +169,20 @@ const CRMvsIntranet = () => {
         <p className="page-subtitle">Período: {periodo.descricao}</p>
       </div>
 
-      {/* Gráfico de Vendas Consolidadas */}
-      {prepareVendasChartData() && (
-        <div className="chart-container-crm">
-          <Bar data={prepareVendasChartData()} options={vendasChartOptions} />
+      {/* Gráficos - Layout 2 Colunas */}
+      <div className="charts-row-crm">
+        {/* Gráfico de Vendas Consolidadas */}
+        {prepareVendasChartData() && (
+          <div className="chart-container-crm">
+            <Bar data={prepareVendasChartData()} options={vendasChartOptions} />
+          </div>
+        )}
+
+        {/* Espaço para o próximo gráfico (Faturamento) */}
+        <div className="chart-container-crm chart-placeholder">
+          <p style={{textAlign: 'center', color: '#7F8C8D', marginTop: '150px'}}>Próximo gráfico será adicionado aqui</p>
         </div>
-      )}
+      </div>
 
       {/* Resumo de Divergências */}
       <div className="summary-card">
