@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
 import './ComparacoesNoTempo.css';
 
 const ComparacoesNoTempo = () => {
   const { processedData, hasData } = useData();
+  const [vendedorSelecionado, setVendedorSelecionado] = useState(null);
 
   if (!hasData()) {
     return (
@@ -20,6 +21,14 @@ const ComparacoesNoTempo = () => {
   }
 
   const { evolucaoTemporal, periodo } = processedData;
+
+  // Obter lista de vendedores
+  const vendedores = Object.keys(evolucaoTemporal);
+
+  // Inicializar vendedor selecionado com o primeiro da lista
+  if (vendedorSelecionado === null && vendedores.length > 0) {
+    setVendedorSelecionado(vendedores[0]);
+  }
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -48,8 +57,25 @@ const ComparacoesNoTempo = () => {
         <p className="page-subtitle">Período Atual: {periodo.descricao}</p>
       </div>
 
-      {/* Evolução por Vendedor */}
-      {Object.keys(evolucaoTemporal).map((vendedor) => {
+      {/* Seleção de Vendedores */}
+      <div className="vendedor-selector">
+        <h3 className="selector-title">Selecione o Vendedor:</h3>
+        <div className="vendedor-buttons">
+          {vendedores.map((vendedor) => (
+            <button
+              key={vendedor}
+              className={`vendedor-btn ${vendedorSelecionado === vendedor ? 'active' : ''}`}
+              onClick={() => setVendedorSelecionado(vendedor)}
+            >
+              {vendedor}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Evolução do Vendedor Selecionado */}
+      {vendedorSelecionado && evolucaoTemporal[vendedorSelecionado] && (() => {
+        const vendedor = vendedorSelecionado;
         const semanas = evolucaoTemporal[vendedor];
         const semanaAtual = semanas[0];
 
@@ -131,7 +157,7 @@ const ComparacoesNoTempo = () => {
             </div>
           </div>
         );
-      })}
+      })()}
     </div>
   );
 };
