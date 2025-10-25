@@ -1,6 +1,28 @@
 import React, { useState } from 'react';
 import { useData } from '../../contexts/DataContext';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './ComparacoesNoTempo.css';
+
+// Registrar componentes do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 const ComparacoesNoTempo = () => {
   const { processedData, hasData } = useData();
@@ -48,6 +70,99 @@ const ComparacoesNoTempo = () => {
     const text = `${variacao > 0 ? '+' : ''}${variacao.toFixed(1)}%`;
     const className = variacao > 0 ? 'positive' : 'negative';
     return { text, class: className };
+  };
+
+  // Preparar dados para o gráfico de evolução de vendas
+  const prepareVendasEvolutionChartData = (semanas) => {
+    if (!semanas || semanas.length === 0) return null;
+
+    const labels = semanas.map(s => {
+      if (s.semana === 'Semana Atual') return 'Atual';
+      return s.semana.replace('Semana ', 'S');
+    });
+
+    const data = semanas.map(s => s.vendas);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Vendas',
+          data,
+          backgroundColor: '#00A9E0', // Azul para todas as barras
+          borderRadius: 8,
+          maxBarThickness: 80,
+        }
+      ]
+    };
+  };
+
+  const vendasEvolutionChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Evolução de Vendas (4 Semanas)',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 30
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            return ` Vendas: ${formatNumber(context.parsed.y)}`;
+          }
+        }
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        color: '#2C3E50',
+        font: {
+          size: 14,
+          weight: '700',
+          family: 'Inter'
+        },
+        formatter: (value) => formatNumber(value)
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 13,
+            weight: '500'
+          },
+          color: '#2C3E50'
+        },
+        grid: {
+          display: false
+        }
+      },
+      y: {
+        display: false,
+        beginAtZero: true
+      }
+    }
   };
 
   return (
@@ -129,32 +244,12 @@ const ComparacoesNoTempo = () => {
               </table>
             </div>
 
-            {/* Gráfico de Barras Simples */}
-            <div className="simple-chart">
-              <h4>Evolução de Vendas</h4>
-              <div className="chart-bars">
-                {semanas.map((semana, index) => {
-                  const maxVendas = Math.max(...semanas.map(s => s.vendas));
-                  const percent = maxVendas > 0 ? (semana.vendas / maxVendas) * 100 : 0;
-
-                  return (
-                    <div key={index} className="chart-bar-item">
-                      <div className="chart-bar-container">
-                        <div 
-                          className={`chart-bar ${index === 0 ? 'current' : ''}`}
-                          style={{ height: `${percent}%` }}
-                        >
-                          <span className="bar-label">{semana.vendas}</span>
-                        </div>
-                      </div>
-                      <div className="chart-label">
-                        {semana.semana === 'Semana Atual' ? 'Atual' : semana.semana.replace('Semana ', 'S')}
-                      </div>
-                    </div>
-                  );
-                })}
+            {/* Gráfico de Evolução de Vendas */}
+            {prepareVendasEvolutionChartData(semanas) && (
+              <div className="chart-container-evolution">
+                <Bar data={prepareVendasEvolutionChartData(semanas)} options={vendasEvolutionChartOptions} />
               </div>
-            </div>
+            )}
           </div>
         );
       })()}
