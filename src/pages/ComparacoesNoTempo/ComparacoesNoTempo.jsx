@@ -309,7 +309,7 @@ const ComparacoesNoTempo = () => {
                   <tr>
                     <th>Período</th>
                     <th>Tentativas</th>
-                    <th>Negócios</th>
+                    <th>Tempo de Ligação</th>
                     <th>Vendas</th>
                     <th>Faturamento</th>
                   </tr>
@@ -328,7 +328,7 @@ const ComparacoesNoTempo = () => {
                         <div className="period-date">{semana.periodo}</div>
                       </td>
                       <td>{formatNumber(semana.tentativasLigacao)}</td>
-                      <td>{formatNumber(semana.negociosTrabalhados)}</td>
+                      <td>{formatTime(semana.tempoLigacao)}</td>
                       <td className="highlight">{formatNumber(semana.vendas)}</td>
                       <td className="highlight">{formatCurrency(semana.faturamento)}</td>
                     </tr>
