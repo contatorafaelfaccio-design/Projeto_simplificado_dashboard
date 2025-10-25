@@ -18,6 +18,7 @@ class DataProcessor {
       divergenciasCRM: this.calculateDivergencias(rawData),
       evolucaoTemporal: this.calculateEvolucaoTemporal(rawData),
       insights: this.generateInsights(rawData),
+      vendasPorProduto: this.processVendasPorProduto(rawData),
       };
       
       console.log('[DataProcessor] Processamento concluído com sucesso');
@@ -341,6 +342,79 @@ class DataProcessor {
     }
 
     return insights;
+  }
+
+  /**
+   * Processa dados de vendas por produto
+   * Agrupa por vendedor e calcula totais
+   */
+  processVendasPorProduto(data) {
+    const { vendasPorProduto } = data;
+
+    // Se não houver dados, retornar estrutura vazia
+    if (!vendasPorProduto || vendasPorProduto.length === 0) {
+      console.warn('[DataProcessor] Nenhum dado de vendas por produto encontrado');
+      return {
+        dados: [],
+        porVendedor: {},
+        totais: {
+          vendas: 0,
+          faturamento: 0
+        }
+      };
+    }
+
+    console.log(`[DataProcessor] Processando ${vendasPorProduto.length} registros de vendas por produto`);
+
+    // Agrupar por vendedor
+    const porVendedor = {};
+    let totalVendas = 0;
+    let totalFaturamento = 0;
+
+    vendasPorProduto.forEach(item => {
+      const { vendedor, produto, vendas, faturamento } = item;
+
+      // Inicializar vendedor se não existir
+      if (!porVendedor[vendedor]) {
+        porVendedor[vendedor] = {
+          nome: vendedor,
+          produtos: [],
+          totalVendas: 0,
+          totalFaturamento: 0
+        };
+      }
+
+      // Adicionar produto
+      porVendedor[vendedor].produtos.push({
+        nome: produto,
+        vendas,
+        faturamento
+      });
+
+      // Acumular totais do vendedor
+      porVendedor[vendedor].totalVendas += vendas;
+      porVendedor[vendedor].totalFaturamento += faturamento;
+
+      // Acumular totais gerais
+      totalVendas += vendas;
+      totalFaturamento += faturamento;
+    });
+
+    // Ordenar produtos de cada vendedor por faturamento (maior primeiro)
+    Object.values(porVendedor).forEach(vendedor => {
+      vendedor.produtos.sort((a, b) => b.faturamento - a.faturamento);
+    });
+
+    console.log(`[DataProcessor] Vendas por produto processadas: ${Object.keys(porVendedor).length} vendedores`);
+
+    return {
+      dados: vendasPorProduto, // Array original
+      porVendedor, // Objeto agrupado por vendedor
+      totais: {
+        vendas: totalVendas,
+        faturamento: totalFaturamento
+      }
+    };
   }
 }
 
