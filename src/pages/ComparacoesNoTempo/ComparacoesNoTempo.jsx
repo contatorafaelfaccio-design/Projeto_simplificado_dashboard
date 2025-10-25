@@ -63,6 +63,19 @@ const ComparacoesNoTempo = () => {
     return new Intl.NumberFormat('pt-BR').format(value);
   };
 
+  const formatTime = (minutes) => {
+    if (!minutes || minutes === 0) return '0h';
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    if (hours > 0 && mins > 0) {
+      return `${hours}h${mins}m`;
+    } else if (hours > 0) {
+      return `${hours}h`;
+    } else {
+      return `${mins}m`;
+    }
+  };
+
   const formatVariacao = (variacao) => {
     if (variacao === 0 || variacao === null || variacao === undefined) {
       return { text: '0%', class: 'neutral' };
