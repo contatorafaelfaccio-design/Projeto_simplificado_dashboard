@@ -97,6 +97,99 @@ const ComparacoesNoTempo = () => {
     };
   };
 
+  // Preparar dados para o gráfico de evolução de faturamento
+  const prepareFaturamentoEvolutionChartData = (semanas) => {
+    if (!semanas || semanas.length === 0) return null;
+
+    const labels = semanas.map(s => {
+      if (s.semana === 'Semana Atual') return 'Atual';
+      return s.semana.replace('Semana ', 'S');
+    });
+
+    const data = semanas.map(s => s.faturamento);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Faturamento',
+          data,
+          backgroundColor: '#8DC63F', // Verde para todas as barras
+          borderRadius: 8,
+          maxBarThickness: 80,
+        }
+      ]
+    };
+  };
+
+  const faturamentoEvolutionChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Evolução de Faturamento (4 Semanas)',
+        font: {
+          size: 16,
+          weight: '600',
+          family: 'Inter'
+        },
+        color: '#2C3E50',
+        padding: {
+          bottom: 30
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: '600'
+        },
+        bodyFont: {
+          size: 13
+        },
+        callbacks: {
+          label: (context) => {
+            return ` Faturamento: ${formatCurrency(context.parsed.y)}`;
+          }
+        }
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        color: '#2C3E50',
+        font: {
+          size: 14,
+          weight: '700',
+          family: 'Inter'
+        },
+        formatter: (value) => formatCurrency(value)
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 13,
+            weight: '500'
+          },
+          color: '#2C3E50'
+        },
+        grid: {
+          display: false
+        }
+      },
+      y: {
+        display: false,
+        beginAtZero: true
+      }
+    }
+  };
+
   const vendasEvolutionChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -244,12 +337,22 @@ const ComparacoesNoTempo = () => {
               </table>
             </div>
 
-            {/* Gráfico de Evolução de Vendas */}
-            {prepareVendasEvolutionChartData(semanas) && (
-              <div className="chart-container-evolution">
-                <Bar data={prepareVendasEvolutionChartData(semanas)} options={vendasEvolutionChartOptions} />
-              </div>
-            )}
+            {/* Gráficos de Evolução - Layout 2 Colunas */}
+            <div className="charts-row-evolution">
+              {/* Gráfico de Evolução de Vendas */}
+              {prepareVendasEvolutionChartData(semanas) && (
+                <div className="chart-container-evolution">
+                  <Bar data={prepareVendasEvolutionChartData(semanas)} options={vendasEvolutionChartOptions} />
+                </div>
+              )}
+
+              {/* Gráfico de Evolução de Faturamento */}
+              {prepareFaturamentoEvolutionChartData(semanas) && (
+                <div className="chart-container-evolution">
+                  <Bar data={prepareFaturamentoEvolutionChartData(semanas)} options={faturamentoEvolutionChartOptions} />
+                </div>
+              )}
+            </div>
           </div>
         );
       })()}
