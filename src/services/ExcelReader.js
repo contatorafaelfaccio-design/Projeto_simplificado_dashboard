@@ -29,6 +29,7 @@ class ExcelReader {
             dadosCRM: this.extractDadosCRM(workbook),
             historico: this.extractHistorico(workbook),
             dadosIntranet: this.extractDadosIntranet(workbook),
+            vendasPorProduto: this.extractVendasPorProduto(workbook),
             metadata: {
               dataProcessamento: new Date().toISOString(),
               nomeArquivo: file.name,
@@ -263,6 +264,48 @@ class ExcelReader {
       return `${horas}h`;
     }
     return `${horas}h${mins}m`;
+  }
+
+  /**
+   * Extrai dados da aba "Vendas por Produto"
+   */
+  extractVendasPorProduto(workbook) {
+    const sheetName = 'Vendas por Produto';
+    
+    // Verificar se a aba existe (opcional)
+    if (!workbook.SheetNames.includes(sheetName)) {
+      console.warn(`[ExcelReader] Aba "${sheetName}" não encontrada. Retornando array vazio.`);
+      return [];
+    }
+
+    const sheet = workbook.Sheets[sheetName];
+    const rawData = XLSX.utils.sheet_to_json(sheet);
+
+    console.log(`[ExcelReader] Lendo aba "${sheetName}" - ${rawData.length} registros`);
+
+    // Validar e processar dados
+    const vendasPorProduto = rawData.map((row, index) => {
+      // Validar colunas obrigatórias
+      const vendedor = row['Vendedor'] || row['vendedor'];
+      const produto = row['Produto'] || row['produto'];
+      const vendas = row['Vendas'] || row['vendas'];
+      const faturamento = row['Faturamento (R$)'] || row['Faturamento'] || row['faturamento'];
+
+      if (!vendedor || !produto) {
+        console.warn(`[ExcelReader] Linha ${index + 2} inválida: vendedor ou produto ausente`);
+        return null;
+      }
+
+      return {
+        vendedor: String(vendedor).trim(),
+        produto: String(produto).trim(),
+        vendas: this.parseNumber(vendas),
+        faturamento: this.parseNumber(faturamento),
+      };
+    }).filter(item => item !== null); // Remover linhas inválidas
+
+    console.log(`[ExcelReader] ${vendasPorProduto.length} registros válidos processados`);
+    return vendasPorProduto;
   }
 }
 
