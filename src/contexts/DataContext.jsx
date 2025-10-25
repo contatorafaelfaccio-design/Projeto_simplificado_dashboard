@@ -57,16 +57,6 @@ export const DataProvider = ({ children }) => {
       console.log('[DataContext] Chamando DataProcessor...');
       const processed = DataProcessor.processData(data);
       console.log('[DataContext] Dados processados:', processed);
-      
-      // 🧪 TESTE: Verificar vendasPorProduto
-      if (processed.vendasPorProduto) {
-        console.log('✅ [TESTE] vendasPorProduto disponível!');
-        console.log('📊 [TESTE] Vendedores:', Object.keys(processed.vendasPorProduto.porVendedor));
-        console.log('📊 [TESTE] Total de vendas:', processed.vendasPorProduto.totais.vendas);
-        console.log('📊 [TESTE] Total de faturamento:', processed.vendasPorProduto.totais.faturamento);
-      } else {
-        console.warn('⚠️ [TESTE] vendasPorProduto NÃO disponível!');
-      }
       setProcessedData(processed);
 
       // Salvar no localStorage
