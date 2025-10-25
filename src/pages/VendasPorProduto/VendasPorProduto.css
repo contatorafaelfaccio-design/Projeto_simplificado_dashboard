@@ -1,0 +1,17 @@
+/* Vendas por Produto - Estilos */
+
+.vendas-produto-content {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 24px;
+}
+
+.empty-state-hint {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #7F8C8D;
+  font-style: italic;
+}
+

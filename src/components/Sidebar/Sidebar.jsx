@@ -9,6 +9,7 @@ const Sidebar = ({ isVisible }) => {
     { path: '/crm-intranet', label: 'CRM x Intranet' },
     { path: '/resultados-gerais', label: 'Resultados Gerais' },
     { path: '/comparacoes-tempo', label: 'Comparações no Tempo' },
+    { path: '/vendas-produto', label: 'Vendas por Produto' },
     { path: '/insights', label: 'Insights' },
   ];
 

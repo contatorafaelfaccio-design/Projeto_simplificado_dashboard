@@ -9,6 +9,7 @@ import CRMvsIntranet from './pages/CRMvsIntranet/CRMvsIntranet';
 import ResultadosGerais from './pages/ResultadosGerais/ResultadosGerais';
 import ComparacoesNoTempo from './pages/ComparacoesNoTempo/ComparacoesNoTempo';
 import Insights from './pages/Insights/Insights';
+import VendasPorProduto from './pages/VendasPorProduto/VendasPorProduto';
 import './styles/global.css';
 import './App.css';
 
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/resultados-gerais" element={<ResultadosGerais />} />
                 <Route path="/comparacoes-tempo" element={<ComparacoesNoTempo />} />
                 <Route path="/insights" element={<Insights />} />
+                <Route path="/vendas-produto" element={<VendasPorProduto />} />
               </Routes>
             </main>
           </div>
