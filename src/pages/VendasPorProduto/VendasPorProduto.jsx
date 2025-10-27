@@ -78,12 +78,35 @@ const VendasPorProduto = () => {
         </div>
       </div>
 
+      {/* Cards de Resumo */}
+      {dadosVendedor && (
+        <div className="cards-resumo">
+          <div className="card-resumo">
+            <div className="card-icon" style={{ background: 'linear-gradient(135deg, #00A9E0 0%, #0088B8 100%)' }}>
+              📦
+            </div>
+            <div className="card-info">
+              <p className="card-label">Total de Vendas</p>
+              <p className="card-value">{dadosVendedor.totalVendas}</p>
+            </div>
+          </div>
+
+          <div className="card-resumo">
+            <div className="card-icon" style={{ background: 'linear-gradient(135deg, #8DC63F 0%, #6FA82F 100%)' }}>
+              💰
+            </div>
+            <div className="card-info">
+              <p className="card-label">Faturamento Total</p>
+              <p className="card-value">R$ {dadosVendedor.totalFaturamento.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Conteúdo será adicionado nas próximas etapas */}
       {dadosVendedor && (
         <div className="vendas-produto-content">
-          <p>Vendedor: {dadosVendedor.nome}</p>
-          <p>Total de Vendas: {dadosVendedor.totalVendas}</p>
-          <p>Total de Faturamento: R$ {dadosVendedor.totalFaturamento.toLocaleString('pt-BR')}</p>
+          <p>Tabela de produtos será adicionada aqui...</p>
         </div>
       )}
     </div>
