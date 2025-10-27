@@ -103,10 +103,32 @@ const VendasPorProduto = () => {
         </div>
       )}
 
-      {/* Conteúdo será adicionado nas próximas etapas */}
-      {dadosVendedor && (
-        <div className="vendas-produto-content">
-          <p>Tabela de produtos será adicionada aqui...</p>
+      {/* Tabela de Produtos */}
+      {dadosVendedor && dadosVendedor.produtos && dadosVendedor.produtos.length > 0 && (
+        <div className="tabela-produtos-container">
+          <h3 className="tabela-titulo">Produtos do Vendedor</h3>
+          <div className="tabela-wrapper">
+            <table className="tabela-produtos">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Vendas</th>
+                  <th>Faturamento</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dadosVendedor.produtos.map((produto, index) => (
+                  <tr key={index}>
+                    <td className="produto-nome">{produto.nome}</td>
+                    <td className="produto-vendas">{produto.vendas}</td>
+                    <td className="produto-faturamento">
+                      R$ {produto.faturamento.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

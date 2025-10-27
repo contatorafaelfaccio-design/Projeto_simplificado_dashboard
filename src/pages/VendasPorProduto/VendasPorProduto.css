@@ -108,6 +108,91 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* Tabela de Produtos */
+.tabela-produtos-container {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tabela-titulo {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2C3E50;
+  margin: 0 0 24px 0;
+}
+
+.tabela-wrapper {
+  overflow-x: auto;
+}
+
+.tabela-produtos {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+}
+
+.tabela-produtos thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.tabela-produtos thead th {
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabela-produtos thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.tabela-produtos thead th:last-child {
+  border-top-right-radius: 8px;
+  text-align: right;
+}
+
+.tabela-produtos tbody tr {
+  border-bottom: 1px solid #E0E0E0;
+  transition: all 0.2s ease;
+}
+
+.tabela-produtos tbody tr:hover {
+  background: #F8F9FA;
+  transform: translateX(4px);
+  box-shadow: -4px 0 0 0 #667eea;
+}
+
+.tabela-produtos tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tabela-produtos tbody td {
+  padding: 18px 16px;
+  font-size: 15px;
+  color: #2C3E50;
+}
+
+.produto-nome {
+  font-weight: 600;
+}
+
+.produto-vendas {
+  text-align: center;
+  font-weight: 600;
+  color: #00A9E0;
+}
+
+.produto-faturamento {
+  text-align: right;
+  font-weight: 700;
+  color: #8DC63F;
+}
+
 /* Conteúdo */
 .vendas-produto-content {
   background: #FFFFFF;
